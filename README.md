@@ -18,8 +18,8 @@ This repository provides a baseline implementation for the **FLARE 2025 3D Multi
 
 2. Clone the repository:
    ```bash
-   git clone https://github.com/bowang-lab/AMOS-MM-Solution.git
-   cd AMOS-MM-Solution
+   git clone https://github.com/medfm-flare/FLARE25-MLLM3D.git
+   cd FLARE25-MLLM3D
    ```
 
 3. Install dependencies:
