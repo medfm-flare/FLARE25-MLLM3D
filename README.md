@@ -142,9 +142,9 @@ CUDA_VISIBLE_DEVICES=0 accelerate launch --num_processes 1 --main_process_port 2
 
 Output:
 - `predictions.csv`: Contains global and local VQA predictions.  
-- For chains, answers should be comma-separated. For example:
+- For chains, answers should be separated by a "|". For example:
   ```
-  Yes, Enlarged volume, smooth surface, narrowed fissures
+  Yes|Abdominal aorta and its branches|Atherosclerosis
   ```
 
 We use the script `eval_vqa.py` to evaluate predictions.
@@ -183,7 +183,7 @@ We use the script `eval_vqa.py` to evaluate predictions.
 ```json
 {
   "global_accuracy": 0.1799,
-  "local_accuracy": 0.5691
+  "local_accuracy": 0.5914
 }
 ```
 
