@@ -49,7 +49,7 @@ def build_prompt(q_txt: str, proj_tokens: int, tokenizer) -> str:
     return tokenizer.apply_chat_template(conversation, tokenize=False)
 
 def main():
-    p = argparse.ArgumentParser("AMOS-VQA inference (identical prompt setup)")
+    p = argparse.ArgumentParser("AMOS-VQA inference")
     p.add_argument("--model_name_or_path")
     p.add_argument("--json_path", required=True, help="Validation JSON file")
     p.add_argument("--data_root", required=True, help="Folder with volumes")

@@ -66,38 +66,38 @@ def main():
     tag = json_path.split(os.sep)[-1].split(".")[0]
     path = model_name_or_path + os.sep + f'{tag}.csv'
 
-    # data_args = Namespace()
-    # data_args.proj_out_num = proj_out_num
-    # data_args.json_path = [json_path]
-    # data_args.data_root = [data_root]
-    # data_args.max_length = model_max_length
-    # data_args.prompt = prompt
-    # data_args.data_img_size = resize_size
+    data_args = Namespace()
+    data_args.proj_out_num = proj_out_num
+    data_args.json_path = [json_path]
+    data_args.data_root = [data_root]
+    data_args.max_length = model_max_length
+    data_args.prompt = prompt
+    data_args.data_img_size = resize_size
 
-    # dataset = AMOSCapDataset(data_args, tokenizer, mode='validation')
+    dataset = AMOSCapDataset(data_args, tokenizer, mode='validation')
 
-    # results = {
-    #     'generated': [],
-    #     'gt': [],
-    #     'name': []
-    # }
+    results = {
+        'generated': [],
+        'gt': [],
+        'name': []
+    }
 
-    # for item in tqdm(dataset):
-    #     image_name = item["image_name"]
+    for item in tqdm(dataset):
+        image_name = item["image_name"]
 
-    #     image = item["image"].unsqueeze(0).to(device, dtype=dtype)
-    #     input_id = item["input_id"].to(device)
-    #     gt_text = item["answer"]
+        image = item["image"].unsqueeze(0).to(device, dtype=dtype)
+        input_id = item["input_id"].to(device)
+        gt_text = item["answer"]
 
-    #     generation = model.generate(image, input_id, max_new_tokens=512, do_sample=False, top_p=0.9, temperature=0)
-    #     generated_texts = tokenizer.batch_decode(generation, skip_special_tokens=True)[0]
+        generation = model.generate(image, input_id, max_new_tokens=512, do_sample=False, top_p=0.9, temperature=0)
+        generated_texts = tokenizer.batch_decode(generation, skip_special_tokens=True)[0]
 
-    #     results['gt'].append(gt_text)
-    #     results['name'].append(image_name)
-    #     results['generated'].append(generated_texts)
+        results['gt'].append(gt_text)
+        results['name'].append(image_name)
+        results['generated'].append(generated_texts)
 
-    #     results_df = pd.DataFrame(results)
-    #     results_df.to_csv(path, index=False)
+        results_df = pd.DataFrame(results)
+        results_df.to_csv(path, index=False)
     
     print("Generating Green")
     g = GenerateGreenScore(path, cache_dir="./GREEN_model")

@@ -74,7 +74,7 @@ class GenerateGreenScore:
         gen_dict = to_dict(gen_raw)
 
         region_scores = {}
-        matching_regions = [r for r in gen_dict if r in gt_dict]
+        matching_regions = [r for r in gen_dict if r in gt_dict] # region in both gt and gen
 
         if matching_regions:
             refs = [gt_dict[r] for r in matching_regions]
@@ -85,20 +85,20 @@ class GenerateGreenScore:
             for r, sc in zip(matching_regions, green_list):
                 region_scores[r] = sc
 
-        # hallucinations, assume gt is normal
+        # assume gt is normal (in gen but not in gt)
         for r in gen_dict.keys() - gt_dict.keys():
             _, _, green_list, *_ = self.model(refs=[gen_dict[r]], hyps=[f"{r} is normal."])
             region_scores[r] = green_list[0]
 
-        # omissions 
+        # omissions (in gt but not in gen)
         for r in gt_dict.keys() - gen_dict.keys():
             region_scores[r] = 0.0
 
         return region_scores
 
     def generate_scores(self):
-        # if "green"   not in self.df.columns: self.df["green"]   = -1.0
-        # if "details" not in self.df.columns: self.df["details"] = ""
+        if "green"   not in self.df.columns: self.df["green"]   = -1.0
+        if "details" not in self.df.columns: self.df["details"] = ""
 
         self.df["green"]   = -1.0
         self.df["details"] = ""
