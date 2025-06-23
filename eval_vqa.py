@@ -57,7 +57,7 @@ def local_accuracy(df: pd.DataFrame, gt: dict) -> float:
             if root_id not in chains:      
                 continue
 
-            preds_list = [norm(p) for p in str(r.prediction).split(",")]
+            preds_list = [norm(p) for p in str(r.prediction).split("|")]
             qids       = chains[root_id]
 
             chain_cnt += 1

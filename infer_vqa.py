@@ -31,7 +31,7 @@ def format_pred(pred: str) -> str:
         for l in lines
         if re.match(r"^\s*\d+\.\s*", l)
     ]
-    return ", ".join(numbered) if numbered and len(numbered) == len(lines) else pred
+    return "|".join(numbered) if numbered and len(numbered) == len(lines) else pred
 
 def build_prompt(q_txt: str, proj_tokens: int, tokenizer) -> str:
     """Exact same chat-template wrapper used during training."""
@@ -133,7 +133,7 @@ def main():
 
             out = model.generate(
                 image, input_ids,
-                max_new_tokens=36, do_sample=True, top_p=0.9, temperature=1.0
+                max_new_tokens=64, do_sample=True, top_p=0.9, temperature=1.0
             )
             pred = tokenizer.decode(out[0], skip_special_tokens=True).replace(prompt, "").strip()
             pred = format_pred(pred)
