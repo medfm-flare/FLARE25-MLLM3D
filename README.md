@@ -18,8 +18,8 @@ This repository provides a baseline implementation for the **FLARE 2025 3D Multi
 
 2. Clone the repository:
    ```bash
-   git clone https://github.com/medfm-flare/FLARE25-MLLM3D.git
-   cd FLARE25-MLLM3D
+   git clone https://github.com/bowang-lab/AMOS-MM-Solution.git
+   cd AMOS-MM-Solution
    ```
 
 3. Install dependencies:
@@ -124,7 +124,7 @@ CUDA_VISIBLE_DEVICES=0 accelerate launch --num_processes 1 --main_process_port 2
 ```
 
 Outputs:
-- `<VAL_JSON_NAME>.csv`: Contains generated and ground-truth reports + GREEN score for each region.
+- `<VAL_JSON_NAME>.csv`: Contains generated and ground-truth reports + GREEN score for each region, should be saved at the same place as `<PATH_TO_CHECKPOINT_DIR>`.
 - Scoring logic is in `generate_green_score.py`.
 
 ---
@@ -134,7 +134,7 @@ Outputs:
 ```bash
 CUDA_VISIBLE_DEVICES=0 accelerate launch --num_processes 1 --main_process_port 29500 infer_vqa.py \
   --model_name_or_path <PATH_TO_CHECKPOINT_DIR> \
-  --json_path Data/AMOSMM.json \
+  --json_path <PATH_TO_VAL_JSON> \
   --image_size 32 256 256 \
   --model_max_length 512 \
   --proj_out_num 256
@@ -142,12 +142,19 @@ CUDA_VISIBLE_DEVICES=0 accelerate launch --num_processes 1 --main_process_port 2
 
 Output:
 - `predictions.csv`: Contains global and local VQA predictions.  
-- For chains, answers should be separated by a "|". For example:
+- For chains, answers should be comma-separated. For example:
   ```
-  Yes|Abdominal aorta and its branches|Atherosclerosis
+  Yes, Enlarged volume, smooth surface, narrowed fissures
   ```
 
 We use the script `eval_vqa.py` to evaluate predictions.
+
+```bash
+python eval_vqa.py \
+  --pred_csv <PATH_TO_predictions.csv> \
+  --gt_csv <PATH_TO_VAL_JSON> \
+  --out_json <PATH_TO_OUTPUT_JSON>
+```
 
 ---
 
@@ -183,7 +190,7 @@ We use the script `eval_vqa.py` to evaluate predictions.
 ```json
 {
   "global_accuracy": 0.1799,
-  "local_accuracy": 0.5914
+  "local_accuracy": 0.5691
 }
 ```
 
